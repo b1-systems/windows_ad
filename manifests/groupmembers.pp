@@ -38,12 +38,14 @@
 #
 define windows_ad::groupmembers(
   $ensure         = present,         # add or delete user
-  $groupname      = $groupname,      # name of group
-  $members        = $members,        # samaccountname of user
+  $groupname      = $title,      # name of group
+  $members        = undef,        # samaccountname of user
 
 # delete user inside a group
   $confirmdeletion  = false,                # delete wihtout confirmation
 ){
+  validate_string($members)
+  validate_string($groupname)
   validate_re($ensure, '^(present|absent)$', 'valid values for ensure are \'present\' or \'absent\'')
 
   if($ensure == 'present'){

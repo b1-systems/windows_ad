@@ -42,15 +42,17 @@
 #
 define windows_ad::group(
   $ensure           = present,         # add or delete user
-  $path             = $path,           # where is located the account
-  $displayname      = $displayname,    # the displayname
-  $groupname        = $groupname,      # is name powersherll parameter
+  $path             = undef,           # where is located the account
+  $displayname      = $title,    # the displayname
+  $groupname        = undef,      # is name powersherll parameter
   $groupscope       = 'Global',        # is groupscope (DomainLocal  OR  Global  OR  Universal )
   $groupcategory    = 'Security',      # is groupcategory ( Security  OR Distribution  )
   $description      = '',              # description of group
   $confirmdeletion  = false,           # delete without confirmation
 ){
-
+  validate_string($displayname)
+  validate_string($path)
+  validate_string($groupname)
   validate_re($ensure, '^(present|absent)$', 'valid values for ensure are \'present\' or \'absent\'')
   validate_re($groupscope, '^(DomainLocal|Global|Universal)$', 'valid values for groupscope are \'DomainLocal\' or \'Global\' or \'Universal\'')
   validate_re($groupcategory, '^(Security|Distribution)$', 'valid values for groupcategory are \'Security\' or \'Distribution\'')

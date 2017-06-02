@@ -53,9 +53,9 @@
 #
 define windows_ad::user(
   $ensure               = present,                            # add or delete user
-  $domainname           = $domainname,                        # the domain name like : jre.local
-  $path                 = $path,                              # where is located the account
-  $accountname          = $accountname,                       # is samaccountname
+  $domainname           = $windows_ad::domainname,            # the domain name like : jre.local
+  $path                 = undef,                              # where is located the account
+  $accountname          = undef,                              # is samaccountname
   $lastname             = '',                                 # is lastname
   $firstname            = '',                                 # is firstname
   $fullname             = '',                                 # is fullname
@@ -71,6 +71,8 @@ define windows_ad::user(
 # delete user
   $confirmdeletion      = false,                              # delete wihtout confirmation
 ){
+  validate_string($path)
+  validate_string($accountname)
   validate_re($ensure, '^(present|absent)$', 'valid values for ensure are \'present\' or \'absent\'')
   validate_bool($passwordneverexpires)
   validate_bool($enabled)
